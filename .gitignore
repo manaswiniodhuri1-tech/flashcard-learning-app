@@ -1,0 +1,11 @@
+# Secrets
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Dependencies and generated files
+**/node_modules/
+.DS_Store
+Thumbs.db
+*.log
+coverage/

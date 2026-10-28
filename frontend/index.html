@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create, study, and track your flashcards.">
+  <title>Flashcard Learning App</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Flashcard Learning App home"><span class="brand-mark">F</span><span>flash<span class="brand-accent">wise</span></span></a>
+    <div class="top-actions"><span class="local-badge"><span class="dot"></span> Study space</span></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">YOUR PERSONAL STUDY SPACE</p>
+        <h1>Small cards.<br><span>Big progress.</span></h1>
+        <p class="hero-copy">Turn what you're learning into quick, focused study sessions.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="float-card card-back">Remember it</div>
+        <div class="float-card card-front"><span class="mini-label">TODAY'S FOCUS</span><strong>One card<br>at a time.</strong><span class="spark">✦</span></div>
+        <span class="hero-orbit orbit-one"></span><span class="hero-orbit orbit-two"></span>
+      </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Study statistics">
+      <article class="stat-card"><span class="stat-icon lavender">▤</span><div><p>Total cards</p><strong id="totalCards">0</strong></div></article>
+      <article class="stat-card"><span class="stat-icon mint">✓</span><div><p>Known cards</p><strong id="knownCards">0</strong></div></article>
+      <article class="stat-card"><span class="stat-icon peach">↻</span><div><p>To review</p><strong id="reviewCards">0</strong></div></article>
+    </section>
+
+    <section class="workspace">
+      <div class="section-heading">
+        <div><p class="eyebrow">BUILD YOUR KNOWLEDGE</p><h2>Your flashcards</h2></div>
+        <button id="showFormBtn" class="button button-primary" type="button"><span aria-hidden="true">＋</span> Add a card</button>
+      </div>
+
+      <form id="cardForm" class="card-form hidden">
+        <div class="form-heading"><div><h3 id="formTitle">Create a flashcard</h3><p>Keep it short and easy to review.</p></div><button type="button" id="cancelFormBtn" class="icon-button" aria-label="Close form">×</button></div>
+        <input type="hidden" id="editingId">
+        <label for="question">Question / front</label>
+        <textarea id="question" rows="2" maxlength="500" placeholder="e.g. What does HTML stand for?" required></textarea>
+        <label for="answer">Answer / back</label>
+        <textarea id="answer" rows="3" maxlength="1000" placeholder="Write the answer here..." required></textarea>
+        <div class="form-row"><label for="category">Subject <input id="category" maxlength="60" placeholder="e.g. Web development"></label><label for="difficulty">Difficulty <select id="difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></label></div>
+        <p id="formError" class="inline-error" role="alert"></p>
+        <div class="form-actions"><button type="button" id="cancelFormBottom" class="button button-quiet">Cancel</button><button type="submit" class="button button-primary">Save card</button></div>
+      </form>
+
+      <div class="toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search your cards..." aria-label="Search flashcards"></label>
+        <select id="categoryFilter" aria-label="Filter by subject"><option value="">All subjects</option></select>
+        <select id="statusFilter" aria-label="Filter by status"><option value="">All cards</option><option value="review">To review</option><option value="known">Known</option></select>
+      </div>
+
+      <div id="notice" class="notice hidden" role="status"></div>
+      <div id="cardsList" class="cards-list"></div>
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">✦</div><h3>Your first card starts here</h3><p>Add a question and answer, then test what you remember.</p><button id="emptyAddBtn" class="button button-primary" type="button">Create your first card</button>
+      </div>
+    </section>
+
+    <section class="study-panel">
+      <div class="study-intro"><p class="eyebrow">QUICK STUDY</p><h2>Ready for a little recall?</h2><p>Pick a card, think of the answer, then flip it to check yourself.</p><button id="startStudyBtn" class="button button-dark" type="button">Start study session <span>→</span></button></div>
+      <div class="study-preview" aria-hidden="true"><span class="preview-top">QUESTION 01</span><span class="preview-question">What will you<br>learn today?</span><span class="preview-bottom">FLIP • RECALL • REPEAT</span></div>
+    </section>
+    <footer><span>flashwise · made for curious minds</span><span id="connectionLabel">Connecting to your study space…</span></footer>
+  </main>
+
+  <dialog id="studyDialog" class="study-dialog">
+    <div class="dialog-head"><div><p class="eyebrow">STUDY SESSION</p><span id="studyProgress">CARD 1</span></div><button id="closeStudyBtn" class="icon-button" aria-label="Close study session">×</button></div>
+    <div id="studyCard" class="study-card" tabindex="0" role="button" aria-label="Flashcard. Activate to reveal answer.">
+      <span id="studySide" class="mini-label">QUESTION</span><p id="studyText">Your question appears here.</p><span id="flipHint" class="flip-hint">Click or press Enter to reveal answer ↗</span>
+    </div>
+    <div class="study-controls"><button id="prevStudyBtn" class="button button-quiet" type="button">← Previous</button><button id="flipStudyBtn" class="button button-primary" type="button">Reveal answer</button><button id="nextStudyBtn" class="button button-quiet" type="button">Next →</button></div>
+    <div class="study-rating"><span>How well did you know it?</span><div><button id="markReviewBtn" class="rating-button" type="button">↻ Need practice</button><button id="markKnownBtn" class="rating-button known" type="button">✓ I knew it</button></div></div>
+  </dialog>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</body>
+</html>
